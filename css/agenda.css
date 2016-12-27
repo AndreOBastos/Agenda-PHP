@@ -1,3 +1,23 @@
-.float-right{
+.float-right {
 	float: right;
+}
+
+.secao-edicao {
+	margin-left: 10px;
+}
+
+.tarefa-container {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border-bottom: 1px dotted black;
+}
+
+.form-adicionar {
+	padding-top: 30px;
+	padding-bottom: 30px;
+}
+
+.lista-tarefas {
+	padding-top: 30px;
+	padding-bottom: 50px;
 }

@@ -1,9 +1,9 @@
 <?php
-	$json_file = file_get_contents("agenda.json");
+	$json_file = file_get_contents("data/agenda.json");
 	$json = json_decode($json_file, true);
 ?>
 
-<html>
+<html lang="pt">
 	<head>
 		<title>
 			Agenda JSON
@@ -19,43 +19,51 @@
 		<link rel="stylesheet" type="text/css" href="css/agenda.css">
 	</head>
 	<body>
-		<div class="row">
-			<div class="col-md-4 col-md-offset-4">
-				<form id="form-adicionar" class="form" action="adicionar.php" method="POST">
+		<div class="row form-adicionar">
+			<div class="col-md-4 col-md-offset-4 card">
+				<form class="form card-block" action="adicionar.php" method="POST">
 					<div class="form-group">
 						<label for="Tarefa">Adicionar Tarefa:</label><br>
-						<input class="form-control" type="text" name="tarefa">
+						<input class="form-control" type="text" name="tarefa" required>
 					</div>
 					<button class="btn btn-primary" type="submit">Adicionar</button>
 				</form>
 			</div>
+		</div>
+		<h3 class="text-muted text-center"> - Lista de Tarefas - </h3>
+		<div class="row lista-tarefas">
 			<div class="col-md-8 col-md-offset-2">
 				<?php
 					for($i=0; $i<count($json); $i++){
 				?>
-					<div class="row">
+					<div class="row tarefa-container">
 						<div class=<?php if($json[$i]["feita"] == true){ echo "'tarefa alert alert-success col-md-7'";} else {echo "'tarefa alert alert-danger col-md-7'";}?>>
-							<?php echo $json[$i]["tarefa"] ?>
-							<div class="float-right">
-								<form action="remover.php" method="POST">
-									<input type="hidden" name="tarefa" value=<?php echo "'".$json[$i]["tarefa"]."'" ?>>
-									<button class=<?php if($json[$i]["feita"] == true){ echo "'btn-success'";} else {echo "'btn-danger'";}?> type="submit">Remover</button>
-								</form>
-								<?php if($json[$i]["feita"] == false){ ?>
-									<form action="completar.php" method="POST">
-										<input type="hidden" name="tarefa" value=<?php echo "'".$json[$i]["tarefa"]."'" ?>>
-										<button class="btn-danger" type="submit">Completar</button>
+							<div class="row">
+								<div class="col-md-9">
+									<?php echo $json[$i]["tarefa"] ?>
+								</div>
+							
+								<div class="col-md-3 text-center">
+									<form action="remover.php" method="POST">
+										<input type="hidden" name="id" value=<?php echo "'".$json[$i]["id"]."'" ?>>
+										<button class=<?php if($json[$i]["feita"] == true){ echo "'btn-success'";} else {echo "'btn-danger'";}?> type="submit">Remover</button>
 									</form>
-								<?php } ?>
+									<?php if($json[$i]["feita"] == false){ ?>
+										<form action="completar.php" method="POST">
+											<input type="hidden" name="id" value=<?php echo "'".$json[$i]["id"]."'" ?>>
+											<button class="btn-danger" type="submit">Completar</button>
+										</form>
+									<?php } ?>
+								</div>
 							</div>
 						</div>
-						<div class="col-md-5">
+						<div class="col-md-4 secao-edicao">
 							<button class="btn btn-primary" id="botao-editar">Editar</button>
 							<form id="form-editar" class="form" action="editar.php" method="POST" style="display: none">
 								<div class="form-group">
-									<input type="hidden" name="tarefa" value=<?php echo "'".$json[$i]["tarefa"]."'" ?>>
+									<input type="hidden" name="id" value=<?php echo "'".$json[$i]["id"]."'" ?>>
 									<label for="new-tarefa">Nova Descrição:</label><br>
-									<input type="text" name="new-tarefa"><br>
+									<input type="text" name="new-tarefa" required><br>
 								</div>
 								<button class="btn btn-primary" type="submit">Editar Tarefa</button>
 							</form>
